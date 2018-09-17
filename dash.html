@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<style>
+<!--tabela gastos-->
+#customers {
+//	font-family: Calibri;
+//	font-size: 6px;
+   // border-collapse: collapse;
+  //  width: 100%;
+//	color: white;
+    width: 400px;
+	background-color: white;
+
+}
+
+#customers td, #customers th {
+    border: 1px solid #1B2631;
+    padding: 2px;
+	font-size: 12px;
+	font-family: Calibri;
+    color: white;
+   // border-collapse: collapse;
+
+
+}
+
+//#customers tr:nth-child(even){color: white;}
+#customers tr:hover {color: white; background-color: #B3B6B7;}
+
+<!--tabela gastos-->
+table, th, td {
+    border: 0px solid green;
+	border-collapse: collapse;
+	//background-color: white;
+	text-align: left;
+	padding : 10px;
+	vertical-align:top;
+
+}
+
+#tr1{
+	font-family: Calibri;
+	font-size: 16px;
+	color: white;
+}
+#tr2{
+	font-family: Calibri;
+	font-size: 18px;
+	color: #d9d9d9;
+}
+#tabela{
+    position: relative;
+    top: 10px;
+	left:0px;
+    width: 100%;
+    border: 0px solid #73AD21;
+	align: center;
+}
+
+</style>
+<script>
+window.onload = function () {
+
+ CanvasJS.addCultureInfo("es", 
+    {      
+      decimalSeparator: ",",// Observe ToolTip Number Format
+      digitGroupSeparator: ".", // Observe axisY labels                   
+      days: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"]
+      
+    });
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	theme: "dark2",
+    backgroundColor: "transparent",
+	exportFileName: "Gastos por Categoria - ago/18",
+	exportEnabled: false,
+	animationEnabled: true,
+	      culture: "es",
+
+	title:{
+		text: "Gastos por Categoria - ago/18",
+		fontSize: 22,
+		fontFamily: "Calibri"
+
+	},
+	legend:{
+		cursor: "pointer",
+		fontFamily: "Calibri",
+		fontSize: 13,
+		//itemclick: explodePie
+		itemclick: function(e){
+			window.location.href = e.dataPoint.link;		
+		 // alert( "Legend item clicked with type : " + e.dataPoint.link );
+        }
+	},
+	axisX:{
+		labelFontFamily: "Calibri"
+	},
+	axisY:{
+		labelFontFamily: "Calibri"
+	},
+	data: [{
+		type: "doughnut",
+		innerRadius: 70,
+		//showInLegend: true,
+		//fillOpacity: .6, //**Try various Opacity values **//
+		toolTipContent: "<b>{name}</b>: ${y} (#percent%)",
+		indexLabel: "{name} - #percent%",
+		dataPoints: [
+			{ y: 450, name: "Alimentação", link:"new_1.html", click: onClick },
+			{ y: 120, name: "Vestuário", link:"http://google.com/", click: onClick },
+			{ y: 300, name: "Saúde", link:"http://google.com/", click: onClick },
+			{ y: 800, name: "Turismo", link:"http://google.com/", click: onClick },
+			{ y: 150, name: "Lazer", link:"http://google.com/", click: onClick },
+			{ y: 150, name: "Educação", link:"http://google.com/", click: onClick },
+			{ y: 250, name: "Outros", link:"http://google.com/", click: onClick }
+		]
+	}]
+});
+chart.render();
+//Funcao para link na legenda
+function onClick(e){
+		//alert(  e.dataPoint.link );
+        window.location.href = e.dataPoint.link;		
+	}
+
+function explodePie (e) {
+	if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+		e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+	} else {
+		e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+	}
+	e.chart.render();
+}
+
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+	animationEnabled: true,
+	theme: "dark2",
+    backgroundColor: "transparent",
+
+	title:{
+		text: "Histórico 2017-18",
+		fontSize: 22,
+		fontFamily: "Calibri"
+		
+	},
+	axisY :{
+		includeZero: false,
+		prefix: "R$"
+	},
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		fontSize: 13,
+		fontFamily: "Calibri"
+	},
+	data: [{
+		type: "splineArea",
+		showInLegend: true,
+		name: "Salaries",
+		yValueFormatString: "$#,##0",
+		xValueFormatString: "MM YYYY",
+		dataPoints: [
+			{ x: new Date(2016, 2), y: 30000 },
+			{ x: new Date(2016, 3), y: 35000 },
+			{ x: new Date(2016, 4), y: 30000 },
+			{ x: new Date(2016, 5), y: 30400 },
+			{ x: new Date(2016, 6), y: 20900 },
+			{ x: new Date(2016, 7), y: 31000 },
+			{ x: new Date(2016, 8), y: 30200 },
+			{ x: new Date(2016, 9), y: 30000 },
+			{ x: new Date(2016, 10), y: 33000 },
+			{ x: new Date(2016, 11), y: 38000 },
+			{ x: new Date(2017, 0),  y: 38900 },
+			{ x: new Date(2017, 1),  y: 39000 }
+		]
+ 	},
+	{
+		type: "splineArea", 
+		showInLegend: true,
+		name: "Office Cost",
+		yValueFormatString: "$#,##0",
+		dataPoints: [
+			{ x: new Date(2016, 2), y: 20100 },
+			{ x: new Date(2016, 3), y: 16000 },
+			{ x: new Date(2016, 4), y: 14000 },
+			{ x: new Date(2016, 5), y: 18000 },
+			{ x: new Date(2016, 6), y: 18000 },
+			{ x: new Date(2016, 7), y: 21000 },
+			{ x: new Date(2016, 8), y: 22000 },
+			{ x: new Date(2016, 9), y: 25000 },
+			{ x: new Date(2016, 10), y: 23000 },
+			{ x: new Date(2016, 11), y: 25000 },
+			{ x: new Date(2017, 0), y: 26000 },
+			{ x: new Date(2017, 1), y: 25000 }
+		]
+ 	},
+	{
+		type: "splineArea", 
+		showInLegend: true,
+		name: "Entertainment",
+		yValueFormatString: "$#,##0",     
+		dataPoints: [
+			{ x: new Date(2016, 2), y: 10100 },
+			{ x: new Date(2016, 3), y: 6000 },
+			{ x: new Date(2016, 4), y: 3400 },
+			{ x: new Date(2016, 5), y: 4000 },
+			{ x: new Date(2016, 6), y: 9000 },
+			{ x: new Date(2016, 7), y: 3900 },
+			{ x: new Date(2016, 8), y: 4200 },
+			{ x: new Date(2016, 9), y: 5000 },
+			{ x: new Date(2016, 10), y: 14300 },
+			{ x: new Date(2016, 11), y: 12300 },
+			{ x: new Date(2017, 0), y: 8300 },
+			{ x: new Date(2017, 1), y: 6300 }
+		]
+ 	},
+	{
+		type: "splineArea", 
+		showInLegend: true,
+		yValueFormatString: "$#,##0",      
+		name: "Maintenance",
+		dataPoints: [
+			{ x: new Date(2016, 2), y: 1700 },
+			{ x: new Date(2016, 3), y: 2600 },
+			{ x: new Date(2016, 4), y: 1000 },
+			{ x: new Date(2016, 5), y: 1400 },
+			{ x: new Date(2016, 6), y: 900 },
+			{ x: new Date(2016, 7), y: 1000 },
+			{ x: new Date(2016, 8), y: 1200 },
+			{ x: new Date(2016, 9), y: 5000 },
+			{ x: new Date(2016, 10), y: 1300 },
+			{ x: new Date(2016, 11), y: 2300 },
+			{ x: new Date(2017, 0), y: 2800 },
+			{ x: new Date(2017, 1), y: 1300 }
+		]
+	}]
+});
+chart2.render();
+
+
+}
+</script>
+</head>
+<body background="img/background6.jpg">
+
+<div id="tabela">
+<table align="center" style="width:1000px">
+  <tr>
+    <td style="width:60%"><div id="chartContainer" style="height: 300px; width: 100%;"></div>
+		<!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+		<script src="lib/canvasjs.min.js"></script>
+    </td>
+    <td rowspan="2" style="width:40%"><center>
+		<table lign="center" style="width:90%" id="customers">
+		  <tr>
+			<th>data</th>
+			<th>estabelecimento</th>
+			<th>R$</th>
+		  </tr>
+		  <tr>
+			<td>01/08</td>
+			<td>casa madeira</td>
+			<td>3.200,00</td>
+		  </tr>
+		  <tr>
+			<td>02/08</td>
+			<td>Academia Top Tenis </td>
+			<td>5.000,00</td>
+		  </tr>
+		  <tr>
+			<td>03/08</td>
+			<td>Amaral Restaurante</td>
+			<td>12.000,00</td>
+		  </tr>
+		  <tr>
+			<td>04/08</td>
+			<td>Casa Moreira</td>
+			<td>4.000,00</td>
+		  </tr>
+		  <tr>
+			<td>04/08</td>
+			<td>Bebidas Morelli</td>
+			<td>5.000</td>
+		  </tr>
+		  <tr>
+			<td>07/08</td>
+			<td>Restaurante Avro</td>
+			<td>1.200,00</td>
+		  </tr>
+		  <tr>
+			<td>15/08</td>
+			<td>Arte em gravura</td>
+			<td>5.500,00</td>
+		  </tr>
+		  <tr>
+			<td>18/08</td>
+			<td>Churrascaria Fogo de chão</td>
+			<td>3.200,00</td>
+		  </tr>
+		  <tr>
+			<td>19/08</td>
+			<td>Simon Crowther</td>
+			<td>3.200</td>
+		  </tr>
+		  <tr>
+		    <td></td>
+			<td>Total</td>
+			<td>56.000,00</td>
+		  </tr>
+		</table>
+		</center>
+	</td>
+  </tr>
+  <tr id="tr2">
+    <td><div id="chartContainer2" style="height: 300px; width: 100%;"></div></td>
+  </tr>
+</table>
+</div>
+</body>
+</html>
