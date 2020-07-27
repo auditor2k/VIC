@@ -1,0 +1,116 @@
+Option Explicit
+
+Private Sub btImporta_Click()
+
+Application.ScreenUpdating = False
+
+'Definição das variáveis
+'-----------------------
+Dim W               As Worksheet
+Dim WNew            As Workbook
+Dim ArqParaAbrir    As Variant
+Dim a               As Integer
+Dim NomeArquivo     As String
+
+'Captura arquivo para tratamento
+'-------------------------------
+
+ArqParaAbrir = Application.GetOpenFilename("Arquivo de Retorno (*.*), *.*", Title:="Escolha o arquivo a ser importado", MultiSelect:=True)
+
+If Not IsArray(ArqParaAbrir) Then
+
+    If ArqParaAbrir = "" Or ArqParaAbrir = False Then
+        MsgBox "Processo abortado. Não foi selecionado arquivos para processar...", vbOKOnly, "Processo abortado"
+        Exit Sub
+    End If
+
+End If
+
+Set W = Sheets("Plan1")
+
+W.UsedRange.EntireColumn.Delete
+W.Select
+  
+For a = LBound(ArqParaAbrir) To UBound(ArqParaAbrir)
+    
+    NomeArquivo = ArqParaAbrir(a)
+    
+    Application.Workbooks.Open (NomeArquivo)
+    Set WNew = ActiveWorkbook
+    ActiveSheet.Range("A1").CurrentRegion.Select
+    Selection.Copy Destination:=W.Cells(W.Rows.Count, 1).End(xlUp).Offset(1, 0)
+    
+    Application.DisplayAlerts = False
+    
+        ActiveWorkbook.Close SaveChanges:=False
+    
+    Application.DisplayAlerts = True
+
+    W.Cells(W.Rows.Count, 1).End(xlUp).Offset(1, 0).Select
+    
+Next a
+
+Application.ScreenUpdating = True
+
+MsgBox "Processo concluído", vbOKOnly, "Processo concluído"
+
+
+End Sub
+Option Explicit
+
+Private Sub btImporta_Click()
+
+Application.ScreenUpdating = False
+
+'Definição das variáveis
+'-----------------------
+Dim W               As Worksheet
+Dim WNew            As Workbook
+Dim ArqParaAbrir    As Variant
+Dim a               As Integer
+Dim NomeArquivo     As String
+
+'Captura arquivo para tratamento
+'-------------------------------
+
+ArqParaAbrir = Application.GetOpenFilename("Arquivo de Retorno (*.*), *.*", Title:="Escolha o arquivo a ser importado", MultiSelect:=True)
+
+If Not IsArray(ArqParaAbrir) Then
+
+    If ArqParaAbrir = "" Or ArqParaAbrir = False Then
+        MsgBox "Processo abortado. Não foi selecionado arquivos para processar...", vbOKOnly, "Processo abortado"
+        Exit Sub
+    End If
+
+End If
+
+Set W = Sheets("Plan1")
+
+W.UsedRange.EntireColumn.Delete
+W.Select
+  
+For a = LBound(ArqParaAbrir) To UBound(ArqParaAbrir)
+    
+    NomeArquivo = ArqParaAbrir(a)
+    
+    Application.Workbooks.Open (NomeArquivo)
+    Set WNew = ActiveWorkbook
+    ActiveSheet.Range("A1").CurrentRegion.Select
+    Selection.Copy Destination:=W.Cells(W.Rows.Count, 1).End(xlUp).Offset(1, 0)
+    
+    Application.DisplayAlerts = False
+    
+        ActiveWorkbook.Close SaveChanges:=False
+    
+    Application.DisplayAlerts = True
+
+    W.Cells(W.Rows.Count, 1).End(xlUp).Offset(1, 0).Select
+    
+Next a
+
+Application.ScreenUpdating = True
+
+MsgBox "Processo concluído", vbOKOnly, "Processo concluído"
+
+
+End Sub
