@@ -1,0 +1,49 @@
+Sub Macro2()
+'
+' Macro2 Macro
+' Range("A1").Select
+    
+    Dim Plan1 As Worksheet
+    Set Plan1 = Sheets("base")
+    Dim UltimaLinha As Long
+    Dim UltimaColuna As Long
+    Dim Coluna As Long
+    Dim Arquivo As String
+    Const ColInicio = 2
+
+'   Dedup da coluna A
+    ActiveSheet.Range("A:A").RemoveDuplicates Columns:=1, Header:=xlNo
+ 
+'   Distribui dados delimitados em colunas
+    Columns("A:A").Select
+    Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
+        Semicolon:=True, Comma:=False, Space:=False, Other:=False, FieldInfo _
+        :=Array(Array(1, 1)), TrailingMinusNumbers:=True
+
+'   Verifica ultima linha e coluna com dado
+    UltimaLinha = Plan1.UsedRange.Rows.Count
+    UltimaColuna = Plan1.UsedRange.Columns.Count
+
+    For Coluna = ColInicio To UltimaColuna
+        Range(Cells(1, Coluna), Cells(UltimaLinha, Coluna)).Select
+        Selection.Cut
+        Range("A" & UltimaLinha + 1).Select
+        ActiveSheet.Paste
+'       Dedup da coluna A
+        ActiveSheet.Range("A:A").RemoveDuplicates Columns:=1, Header:=xlNo
+        UltimaLinha = Plan1.UsedRange.Rows.Count
+    Next
+    
+'   nome do arquivo
+    Arquivo = Range("M1").Value
+    MsgBox Arquivo
+    Range("B1").Select
+'ActiveCell.FormulaR1C1 = "=VLOOKUP(RC[-1],Planilha3!C[-1]:C,2,FALSE)"
+ActiveCell.FormulaR1C1 = "&Arquivo"
+    'ActiveCell.FormulaR1C1 = "=VLOOKUP(RC[-1]," & Arquivo
+    Selection.AutoFill Destination:=Range("B1:B" & UltimaLinha)
+    Range("B1:B" & UltimaLinha).Select
+
+
+End Sub
